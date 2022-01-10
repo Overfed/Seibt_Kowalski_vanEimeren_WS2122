@@ -10,6 +10,7 @@ api.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+//Funktioniert noch nicht, Error: "Cannot PUSH /"
 api.post('/add', (req, res) => {
     res.send('Es funktioniert!');
 });
