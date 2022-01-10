@@ -1,18 +1,15 @@
 {
-  "name": "GDW Repository für WG-Einkaufslisten-API",
+  "name": "package",
   "version": "1.0.0",
   "description": "Eine API für das Berechnen der Gesamtkosten von Mitbewohnern einer WG bei gemeinsamen Einkäufen",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-<<<<<<< HEAD
-  "author": "",
-  "license": "",
-=======
+ 
   "author": "Colin van Eimeren, Collin Seibt, Konstantin Kowalski",
   "license": "ISC",
->>>>>>> 4469c8b9222f0f7c215a43119db7268951769160
+
   "dependencies": {
     "express": "^4.17.2"
   }
