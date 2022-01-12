@@ -12,10 +12,11 @@ api.get('/', (req, res) => {
 });
 
 //Funktioniert noch nicht, Error: "Cannot PUSH /"
+/*
 api.post('/add', (req, res) => {
     res.send('Es funktioniert!');
 });
-
+*/
 
 
 api.get('/wg', (req, res) => {
