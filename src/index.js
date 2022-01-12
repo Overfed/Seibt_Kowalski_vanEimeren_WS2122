@@ -1,14 +1,10 @@
 const express = require('express');
-
-
-const PORT = 6969;
-
+const PORT = process.env.port || 6969;
 const api = express();
-api.listen(PORT, 'localhost', () => {
+
+api.listen(PORT, () => {
     console.log("API läuft!")
 });
-
-//api.use(express.json);
 
 api.get('/', (req, res) => {
     console.log(req);
