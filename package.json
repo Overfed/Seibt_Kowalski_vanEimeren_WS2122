@@ -4,11 +4,17 @@
   "description": "Eine API für das Berechnen der Gesamtkosten von Mitbewohnern einer WG bei gemeinsamen Einkäufen",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
+},
   "author": "Colin van Eimeren, Collin Seibt, Konstantin Kowalski",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "serve": "^13.0.2"
   }
 }
