@@ -1,6 +1,7 @@
 const express = require('express');
 const PORT = process.env.port || 6969;
 const api = express();
+const readfile = require('./fileReader.js');
 
 api.listen(PORT, () => {
     console.log("API läuft!")
@@ -19,11 +20,12 @@ api.post('/add', (req, res) => {
 */
 
 
-api.get('/wg', (req, res) => {
+api.get('/produkt/id', (req, res) => {
    
     res.status(200).send({
-        WG: 'TestWG1'
-
+        
+        
 
     })
 });
+
