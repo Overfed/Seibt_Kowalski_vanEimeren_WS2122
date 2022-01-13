@@ -2,6 +2,8 @@ const { fstat } = require("fs")
 const fs = require('fs');
 const { arrayBuffer, json } = require("stream/consumers");
 
+
+
 function readData(path) {
 
     return function (callback) {
@@ -21,4 +23,28 @@ function readData(path) {
 
         }
     }
+}
+
+function writeData(path) {
+    return function (newData) {
+        data = JSON.stringify(newData)
+
+
+        fs.writeFile(path, data, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+            output()
+        });
+
+    }
+
+}
+
+module.exports = {
+
+    readData,
+    writeData
+  
 }

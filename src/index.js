@@ -11,21 +11,21 @@ api.get('/', (req, res) => {
     console.log(req);
     res.send('Hello World!');
 });
-
-//Funktioniert noch nicht, Error: "Cannot PUSH /"
-/*
-api.post('/add', (req, res) => {
-    res.send('Es funktioniert!');
-});
-*/
-
-
-api.get('/produkt/id', (req, res) => {
-   
-    res.status(200).send({
-        
-        
-
-    })
+var data = readfile.readData('./src/Data/produkte.json');
+api.get("/produkt/:ID", (req, res) => {
+    
+    res.send(data(console.table));
+ 
+    
 });
 
+api.post("/produkt/", (req,res) => {
+    var edit = readfile.writeData('./src/Data/produkte.json')
+    
+
+});
+
+api.get("/wg", (req, res) => {
+    
+    res.status(200).send(data(console.log));
+});
