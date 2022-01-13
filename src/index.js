@@ -11,12 +11,12 @@ api.get('/', (req, res) => {
     console.log(req);
     res.send('Hello World!');
 });
+
 var data = readfile.readData('./src/Data/produkte.json');
 api.get("/produkt/:ID", (req, res) => {
     
-    res.send(data(console.table));
- 
-    
+    res.send(data());
+  
 });
 
 api.post("/produkt/", (req,res) => {
