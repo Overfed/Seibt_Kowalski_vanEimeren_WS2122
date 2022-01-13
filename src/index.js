@@ -21,7 +21,7 @@ api.get("/produkt/:ID", (req, res) => {
 
 api.post("/produkt/", (req,res) => {
     var edit = readfile.writeData('./src/Data/produkte.json')
-    
+    //Wie?
 
 });
 
