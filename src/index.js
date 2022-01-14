@@ -37,12 +37,12 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
                 return console.log(err);
-                res.code(500);
+                ;
             }
             console.log("The file was saved!");
             res.status(201).send("updated successfully!");
 
-       });
+        });
     });
 
     api.put("/wg/:wgID/ShoppingList/:productID", (req, res) => {
@@ -59,56 +59,70 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
                 return console.log(err);
-                res.code(500);
+
             }
             console.log("The file was saved!");
             res.status(201).send("updated successfully!");
         });
     });
 
-    api.delete("/wg/:wgID", (req, res) => {
+    api.delete("/wg", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
-        if (!thisWG) res.status(404).send('WG not found');
+        Wgs.splice(0,Wgs.length);
+        var newData = JSON.stringify(Wgs);
 
-        for (var i = 0; i < Wgs.length; i++) {
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
 
-            if (Wgs[i].ID == req.body.wgID) {
-
-                Wgs.splice(i, 1);
-                fs.writeFile(WgPath, newData, 'utf8', function (err) {
-                    if (err) {
-                        return console.log(err);
-                        res.code(500);
-                    }
-                    console.log("The file was saved!");
-                    res.status(201).send("deleted succesfully!");
-                    return
-                });
-
-                break
             }
-        }
+            console.log("The file was saved!");
+
+        });
+        res.status(201).send("deleted succesfully!");
     });
 
-    api.delete("/wg/:wgID/ShoppingList/:productID", (req, res) => {
+
+    
+    api.delete("/wg/:ID", (req, res) => {
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        
+            Wgs.splice(thisWG, 1);
+   
+        
+
+        var newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+
+            }
+            console.log("The file was saved!");
+
+        });
+        res.status(201).send("deleted succesfully!");
+    });
+
+    api.delete("/wg/:wgID/ShoppingList", (req, res) => {
 
         let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
+        thisWG.ShoppingList.splice(0, thisWG.ShoppingList.length);
         newData = JSON.stringify(Wgs);
 
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
                 return console.log(err);
-                res.code(500);
+
             }
             console.log("The file was saved!");
-            res.status(201).send("created successfully!");
+            res.status(201).send("deleted successfully!");
         });
     });
-
-    
 
     api.get("/wg/:wgID/shoppinglist/:productID", (req, res) => {
         let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
@@ -159,7 +173,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
                 return console.log(err);
-                res.code(500);
+
             }
             console.log("The file was saved!");
             res.status(201).send("created successfully!");
@@ -191,7 +205,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
                 return console.log(err);
-                res.code(500);
+
             }
             console.log("The file was saved!");
             res.status(201).send("created successfully!");
@@ -200,7 +214,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
         });
 
-       
+
 
     });
 
