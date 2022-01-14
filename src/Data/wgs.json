@@ -2,8 +2,8 @@
     {
         "ID": 1,
         "PersonCount": 4,
-        "Price": 0,
-        "PricePerPerson": 0,
+        "Price": 18.94,
+        "PricePerPerson": 4.735,
         "ShoppingList": [
             {
                 "ProductID": 1,
@@ -11,12 +11,19 @@
                 "Price": 3.99
             },
             {
-                "ProductID": 2
+                "ProductID": 2,
+                "Product": "Klopapier",
+                "Price": 1.99
             },
             {
                 "ProductID": 3,
-                "Product": "Klopapier",
+                "Product": "Apfel",
                 "Price": 1.99
+            },
+            {
+                "ProductID": 4,
+                "Product": "Hackfleisch",
+                "Price": 3
             }
         ]
     },
