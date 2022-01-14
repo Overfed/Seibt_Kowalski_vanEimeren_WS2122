@@ -1,9 +1,21 @@
 [
-    {
+    {  
+        "ID" : 1,
+        "PersonCount" : 4,
+        "Price"  : 0,
+        "PricePerPerson": 0,
+        "ShoppingList" : [
+            {
+                "ProductID": 1,
+                "Product" : "Schnitzel",
+                "Price" : "3.99"
+            }    
 
+
+        ]
         
+    
     }
-
 
 
 
