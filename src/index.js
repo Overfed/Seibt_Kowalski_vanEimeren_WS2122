@@ -50,14 +50,14 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
 
         const newWG = {
-            id : Wgs.length + 1,
+            ID : Wgs.length + 1,
             PersonCount : req.body.PersonCount,
             Price  : 0,
             PricePerPerson: 0,
 
         }
 
-        Wgs.push(newWg);
+        Wgs.push(newWG);
 
         newData = JSON.stringify(Wgs);
 
@@ -69,8 +69,34 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
         });
 
-        res.send(console.log(produkte));
+        res.status(201).send(console.log(Wgs));
 
+    });
+
+    api.post("/wg/:wgID/ShoppingList/", (req, res) => {
+
+
+        const newProduct = {
+            ProductID: Wgs[req.params.wgID-1].ShoppingList.length+1 ,
+            Product: req.body.ProductName,
+            Price: req.body.Price
+        }
+
+        Wgs[req.params.wgID-1].ShoppingList.push(newProduct);
+
+        newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+                res.code(500); 
+            }
+            console.log("The file was saved!");
+            res.status(201).send("created successfully!");
+
+        });
+
+      
     });
 
 });

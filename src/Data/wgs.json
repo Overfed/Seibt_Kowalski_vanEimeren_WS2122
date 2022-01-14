@@ -1,22 +1,35 @@
 [
-    {  
-        "ID" : 1,
-        "PersonCount" : 4,
-        "Price"  : 0,
+    {
+        "ID": 1,
+        "PersonCount": 4,
+        "Price": 0,
         "PricePerPerson": 0,
-        "ShoppingList" : [
+        "ShoppingList": [
             {
                 "ProductID": 1,
-                "Product" : "Schnitzel",
-                "Price" : "3.99"
-            }    
-
-
+                "Product": "Schnitzel",
+                "Price": 3.99
+            },
+            {
+                "ProductID": 2
+            },
+            {
+                "ProductID": 3,
+                "Product": "Klopapier",
+                "Price": 1.99
+            }
         ]
-        
-    
+    },
+    {
+        "ID": 2,
+        "PersonCount": 3,
+        "Price": 0,
+        "PricePerPerson": 0
+    },
+    {
+        "ID": 3,
+        "PersonCount": 6,
+        "Price": 0,
+        "PricePerPerson": 0
     }
-
-
-
 ]
