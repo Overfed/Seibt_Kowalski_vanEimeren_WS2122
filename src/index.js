@@ -1,10 +1,12 @@
 const express = require('express');
-const PORT = process.env.port || 6969;
-const api = express();
 const { fstat } = require("fs")
 const fs = require('fs');
+const PORT = process.env.port || 6969;
+const api = express();
 const { arrayBuffer, json } = require("stream/consumers");
 const WgPath = './src/Data/wgs.json';
+const valid = require('./Validate.js');
+
 
 api.use(express.json());
 
@@ -31,18 +33,22 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         if (!thisWG) res.status(404).send('WG not found');
 
         thisWG.PersonCount = req.body.PersonCount;
+        if (!valid.validateWG(thisWG)) {
+            res.status(400).send("Bad Request");
+        } else {
 
-        newData = JSON.stringify(Wgs);
+            newData = JSON.stringify(Wgs);
 
-        fs.writeFile(WgPath, newData, 'utf8', function (err) {
-            if (err) {
-                return console.log(err);
-                ;
-            }
-            console.log("The file was saved!");
-            res.status(201).send("updated successfully!");
+            fs.writeFile(WgPath, newData, 'utf8', function (err) {
+                if (err) {
+                    return console.log(err);
 
-        });
+                }
+                console.log("The file was saved!");
+                res.status(201).send("updated successfully!");
+
+            });
+        }
     });
 
     api.put("/wg/:wgID/ShoppingList/:productID", (req, res) => {
@@ -54,16 +60,21 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         if (!thisProduct) res.status(404).send('Product not found');
         thisProduct.Product = req.body.ProductName;
         thisProduct.Price = req.body.Price;
-        newData = JSON.stringify(Wgs);
 
-        fs.writeFile(WgPath, newData, 'utf8', function (err) {
-            if (err) {
-                return console.log(err);
+        if (!valid.validateProduct(thisProduct)) {
+            res.status(400).send("Bad Request");
+        } else {
+            newData = JSON.stringify(Wgs);
 
-            }
-            console.log("The file was saved!");
-            res.status(201).send("updated successfully!");
-        });
+            fs.writeFile(WgPath, newData, 'utf8', function (err) {
+                if (err) {
+                    return console.log(err);
+
+                }
+                console.log("The file was saved!");
+                res.status(201).send("updated successfully!");
+            });
+        }
     });
 
     api.delete("/wg", (req, res) => {
@@ -79,7 +90,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
             console.log("The file was saved!");
 
         });
-        res.status(201).send("deleted succesfully!");
+        res.status(200).send("deleted succesfully!");
     });
 
 
@@ -103,7 +114,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
             console.log("The file was saved!");
 
         });
-        res.status(201).send("deleted succesfully!");
+        res.status(200).send("deleted succesfully!");
     });
 
     api.delete("/wg/:wgID/ShoppingList", (req, res) => {
@@ -120,7 +131,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
             }
             console.log("The file was saved!");
-            res.status(201).send("deleted successfully!");
+            res.status(200).send("deleted successfully!");
         });
     });
 
@@ -143,7 +154,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
             }
             console.log("The file was saved!");
-            res.status(201).send("deleted successfully!");
+            res.status(200).send("deleted successfully!");
         });
     });
 
@@ -180,63 +191,82 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.post("/wg", (req, res) => {
 
+        let newID;
+
+        Wgs.forEach(element => {
+            if (element.ID == 1) newID = Wgs.length + 1;
+            else newID = 1;
+
+        });
 
         const newWG = {
-            ID: Wgs.length + 1,
+            ID: newID,
             PersonCount: req.body.PersonCount,
             Price: 0,
             PricePerPerson: 0,
 
         }
+        if (!valid.validateWG(newWG)) {
+            return res.status(400).send("Bad Request");
+        } else {
 
-        Wgs.push(newWG);
+            Wgs.push(newWG);
 
-        newData = JSON.stringify(Wgs);
+            newData = JSON.stringify(Wgs);
 
-        fs.writeFile(WgPath, newData, 'utf8', function (err) {
-            if (err) {
-                return console.log(err);
+            fs.writeFile(WgPath, newData, 'utf8', function (err) {
+                if (err) {
+                    return console.log(err);
 
-            }
-            console.log("The file was saved!");
-            res.status(201).send("created successfully!");
+                }
+                console.log("The file was saved!");
+                res.status(201).send("created successfully!");
 
-        });
+            });
 
 
-        res.status(201).send(console.log(Wgs));
-
+        }
     });
 
     api.post("/wg/:wgID/ShoppingList/", (req, res) => {
 
+        let newID;
+
+        Wgs[req.params.wgID - 1].ShoppingList.forEach(element => {
+            if (element.ID == 1) newID = Wgs[req.params.wgID - 1].ShoppingList.length + 1;
+            else newID = 1;
+
+        });
 
         const newProduct = {
-            ProductID: Wgs[req.params.wgID - 1].ShoppingList.length + 1,
+            ProductID: newID,
             Product: req.body.ProductName,
             Price: req.body.Price
         }
 
-        Wgs[req.params.wgID - 1].ShoppingList.push(newProduct);
-        Wgs[req.params.wgID - 1].ShoppingList.forEach(element => {
-            Wgs[req.params.wgID - 1].Price = Wgs[req.params.wgID - 1].Price + element.Price;
-        });
-        Wgs[req.params.wgID - 1].PricePerPerson = Wgs[req.params.wgID - 1].Price / Wgs[req.params.wgID - 1].PersonCount;
+        if (!valid.validateProduct(newProduct)) {
+            res.status(400).send("Bad Request");
+        } else {
+            Wgs[req.params.wgID - 1].ShoppingList.push(newProduct);
+            Wgs[req.params.wgID - 1].ShoppingList.forEach(element => {
+                Wgs[req.params.wgID - 1].Price = Wgs[req.params.wgID - 1].Price + element.Price;
+            });
+            Wgs[req.params.wgID - 1].PricePerPerson = Wgs[req.params.wgID - 1].Price / Wgs[req.params.wgID - 1].PersonCount;
 
-        newData = JSON.stringify(Wgs);
+            newData = JSON.stringify(Wgs);
 
-        fs.writeFile(WgPath, newData, 'utf8', function (err) {
-            if (err) {
-                return console.log(err);
+            fs.writeFile(WgPath, newData, 'utf8', function (err) {
+                if (err) {
+                    return console.log(err);
 
-            }
-            console.log("The file was saved!");
-            res.status(201).send("created successfully!");
+                }
+                console.log("The file was saved!");
+                res.status(201).send("created successfully!");
 
 
 
-        });
-
+            });
+        }
 
 
     });
