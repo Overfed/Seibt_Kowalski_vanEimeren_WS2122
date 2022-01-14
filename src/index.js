@@ -50,7 +50,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
-        let thisProduct = thisWG.ShoppingList.find(list => list.ProductID === parseInt(req.params.productID));
+        let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
         if (!thisProduct) res.status(404).send('Product not found');
         thisProduct.Product = req.body.ProductName;
         thisProduct.Price = req.body.Price;
@@ -68,7 +68,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.delete("/wg", (req, res) => {
 
-        Wgs.splice(0,Wgs.length);
+        Wgs.splice(0, Wgs.length);
         var newData = JSON.stringify(Wgs);
 
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
@@ -83,15 +83,15 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
     });
 
 
-    
+
     api.delete("/wg/:ID", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.ID));
         if (!thisWG) res.status(404).send('WG not found');
 
-        
-            Wgs.splice(thisWG, 1);
-   
-        
+
+        Wgs.splice(thisWG, 1);
+
+
 
         var newData = JSON.stringify(Wgs);
 
@@ -113,6 +113,29 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
         thisWG.ShoppingList.splice(0, thisWG.ShoppingList.length);
         newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+
+            }
+            console.log("The file was saved!");
+            res.status(201).send("deleted successfully!");
+        });
+    });
+
+    api.delete("/wg/:wgID/ShoppingList/:productID", (req, res) => {
+
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
+        if (!thisProduct) res.status(404).send('Product not found');
+
+        thisWG.ShoppingList.splice(thisProduct, 1);
+        newData = JSON.stringify(Wgs);
+
+
 
         fs.writeFile(WgPath, newData, 'utf8', function (err) {
             if (err) {
