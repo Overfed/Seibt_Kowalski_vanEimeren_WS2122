@@ -25,11 +25,96 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     let Wgs = JSON.parse(data);
 
-    api.get("/wg/:wgID/shoppinglist/:productID", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.id === parseInt(req.params.wgID));
+    api.put("/wg/:wgID", (req, res) => {
+
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        thisWG.PersonCount = req.body.PersonCount;
+
+        newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+                res.code(500);
+            }
+            console.log("The file was saved!");
+            res.status(201).send("updated successfully!");
+
+       });
+    });
+
+    api.put("/wg/:wgID/ShoppingList/:productID", (req, res) => {
+
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         let thisProduct = thisWG.ShoppingList.find(list => list.ProductID === parseInt(req.params.productID));
+        if (!thisProduct) res.status(404).send('Product not found');
+        thisProduct.Product = req.body.ProductName;
+        thisProduct.Price = req.body.Price;
+        newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+                res.code(500);
+            }
+            console.log("The file was saved!");
+            res.status(201).send("updated successfully!");
+        });
+    });
+
+    api.delete("/wg/:wgID", (req, res) => {
+
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        for (var i = 0; i < Wgs.length; i++) {
+
+            if (Wgs[i].ID == req.body.wgID) {
+
+                Wgs.splice(i, 1);
+                fs.writeFile(WgPath, newData, 'utf8', function (err) {
+                    if (err) {
+                        return console.log(err);
+                        res.code(500);
+                    }
+                    console.log("The file was saved!");
+                    res.status(201).send("deleted succesfully!");
+                    return
+                });
+
+                break
+            }
+        }
+    });
+
+    api.delete("/wg/:wgID/ShoppingList/:productID", (req, res) => {
+
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        newData = JSON.stringify(Wgs);
+
+        fs.writeFile(WgPath, newData, 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+                res.code(500);
+            }
+            console.log("The file was saved!");
+            res.status(201).send("created successfully!");
+        });
+    });
+
+    
+
+    api.get("/wg/:wgID/shoppinglist/:productID", (req, res) => {
+        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        if (!thisWG) res.status(404).send('WG not found');
+
+        let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
         if (!thisProduct) res.status(404).send('Product not found');
 
 
@@ -115,97 +200,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
         });
 
-        api.put("/wg/:wgID", (req, res) => {
-
-            let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
-            if (!thisWG) res.status(404).send('WG not found');
-
-
-
-            newData = JSON.stringify(Wgs);
-
-            fs.writeFile(WgPath, newData, 'utf8', function (err) {
-                if (err) {
-                    return console.log(err);
-                    res.code(500);
-                }
-                console.log("The file was saved!");
-                res.status(201).send("created successfully!");
-
-
-
-            });
-        });
-
-        api.put("/wg/:wgID/ShoppingList/:productID", (req, res) => {
-
-            let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
-            if (!thisWG) res.status(404).send('WG not found');
-
-
-
-            newData = JSON.stringify(Wgs);
-
-            fs.writeFile(WgPath, newData, 'utf8', function (err) {
-                if (err) {
-                    return console.log(err);
-                    res.code(500);
-                }
-                console.log("The file was saved!");
-                res.status(201).send("created successfully!");
-
-
-
-            });
-        });
-
-        api.delete("/wg/:wgID", (req, res) => {
-
-            let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
-            if (!thisWG) res.status(404).send('WG not found');
-
-            for (var i = 0; i < cities.length; i++) {
-
-                if (Wgs[i].ID == req.body.wgID) {
-
-                    Wgs.splice(i, 1)
-                    fs.writeFile(WgPath, newData, 'utf8', function (err) {
-                        if (err) {
-                            return console.log(err);
-                            res.code(500);
-                        }
-                        console.log("The file was saved!");
-                        res.status(201).send("deleted succesfully!");
-                    });
-
-                    break
-                }
-            }
-
-
-        });
-
-        api.delete("/wg/:wgID/ShoppingList/:productID", (req, res) => {
-
-            let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
-            if (!thisWG) res.status(404).send('WG not found');
-
-
-
-            newData = JSON.stringify(Wgs);
-
-            fs.writeFile(WgPath, newData, 'utf8', function (err) {
-                if (err) {
-                    return console.log(err);
-                    res.code(500);
-                }
-                console.log("The file was saved!");
-                res.status(201).send("created successfully!");
-
-
-
-            });
-        });
+       
 
     });
 
