@@ -29,7 +29,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.put("/wg/:wgID", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         thisWG.PersonCount = req.body.PersonCount;
@@ -53,7 +53,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.put("/wg/:wgID/ShoppingList/:productID", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
@@ -96,7 +96,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
 
     api.delete("/wg/:ID", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.ID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.ID));
         if (!thisWG) res.status(404).send('WG not found');
 
 
@@ -119,7 +119,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.delete("/wg/:wgID/ShoppingList", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         thisWG.ShoppingList.splice(0, thisWG.ShoppingList.length);
@@ -137,7 +137,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.delete("/wg/:wgID/ShoppingList/:productID", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
@@ -159,7 +159,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
     });
 
     api.get("/wg/:wgID/shoppinglist/:productID", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.wgID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.wgID));
         if (!thisWG) res.status(404).send('WG not found');
 
         let thisProduct = thisWG.ShoppingList.find(list => list.ProductID == parseInt(req.params.productID));
@@ -171,14 +171,14 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
 
     api.get("/wg/:ID/shoppinglist", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.ID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.ID));
         if (!thisWG) res.status(404).send('WG not found');
         res.status(200).send(thisWG.ShoppingList);
     });
 
     api.get("/wg/:ID", (req, res) => {
 
-        let thisWG = Wgs.find(wg => wg.ID == parseInt(req.params.ID));
+        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.ID));
 
         if (!thisWG) res.status(404).send('WG not found');
         res.status(200).send(thisWG);
@@ -194,7 +194,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         let newID;
 
         Wgs.forEach(element => {
-            if (element.ID == 1) newID = Wgs.length + 1;
+            if (element.wgID == 1) newID = Wgs.length + 1;
             else newID = 1;
 
         });
