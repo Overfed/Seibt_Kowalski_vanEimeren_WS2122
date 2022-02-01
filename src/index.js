@@ -96,11 +96,11 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
 
     api.delete("/wg/:ID", (req, res) => {
-        let thisWG = Wgs.find(wg => wg.wgID == parseInt(req.params.ID));
+        let thisWG = Wgs.find(wg => wg.wgID === parseInt(req.params.ID));
         if (!thisWG) res.status(404).send('WG not found');
 
 
-        Wgs.splice(thisWG, 1);
+        Wgs.splice(thisWG,0);
 
 
 
@@ -191,19 +191,15 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.post("/wg", (req, res) => {
 
-        let newID;
+        let newID =  Wgs.length + 1;
 
-        Wgs.forEach(element => {
-            if (element.wgID == 1) newID = Wgs.length + 1;
-            else newID = 1;
-
-        });
 
         const newWG = {
-            ID: newID,
+            wgID: newID,
             PersonCount: req.body.PersonCount,
             Price: 0,
             PricePerPerson: 0,
+            ShoppingList: []
 
         }
         if (!valid.validateWG(newWG)) {
@@ -230,16 +226,10 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
 
     api.post("/wg/:wgID/ShoppingList/", (req, res) => {
 
-        let newID;
-
-        Wgs[req.params.wgID - 1].ShoppingList.forEach(element => {
-            if (element.ID == 1) newID = Wgs[req.params.wgID - 1].ShoppingList.length + 1;
-            else newID = 1;
-
-        });
+     
 
         const newProduct = {
-            ProductID: newID,
+            ProductID: Wgs[req.params.wgID - 1].ShoppingList.length + 1,
             Product: req.body.ProductName,
             Price: req.body.Price
         }
