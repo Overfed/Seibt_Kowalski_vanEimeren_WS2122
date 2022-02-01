@@ -1,1 +1,32 @@
-[{"wgID":1,"PersonCount":3,"Price":79.92,"PricePerPerson":26.64,"ShoppingList":[{"ProductID":3,"Product":"Schnitzel","Price":8},{"ProductID":1,"Product":"Hackfleisch","Price":3},{"ProductID":4,"Product":"Test","Price":3}]},{"wgID":2,"PersonCount":4,"Price":0,"PricePerPerson":0,"ShoppingList":[]}]
+[
+    {
+        "wgID": 1,
+        "PersonCount": 3,
+        "Price": 79.92,
+        "PricePerPerson": 26.64,
+        "ShoppingList": [
+            {
+                "ProductID": 3,
+                "Product": "Schnitzel",
+                "Price": 8
+            },
+            {
+                "ProductID": 1,
+                "Product": "Hackfleisch",
+                "Price": 3
+            },
+            {
+                "ProductID": 4,
+                "Product": "Test",
+                "Price": 3
+            }
+        ]
+    },
+    {
+        "wgID": 2,
+        "PersonCount": 4,
+        "Price": 0,
+        "PricePerPerson": 0,
+        "ShoppingList": []
+    }
+]

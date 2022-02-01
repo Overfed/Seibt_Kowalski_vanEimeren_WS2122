@@ -100,7 +100,7 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
         if (!thisWG) res.status(404).send('WG not found');
 
 
-        Wgs.splice(thisWG,0);
+        Wgs.splice(thisWG,1);
 
 
 
@@ -225,9 +225,6 @@ fs.readFile(WgPath, 'utf8', (err, data) => {
     });
 
     api.post("/wg/:wgID/ShoppingList/", (req, res) => {
-
-     
-
         const newProduct = {
             ProductID: Wgs[req.params.wgID - 1].ShoppingList.length + 1,
             Product: req.body.ProductName,
