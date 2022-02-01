@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const express = require('express');
 const { fstat } = require("fs")
 const fs = require('fs');
